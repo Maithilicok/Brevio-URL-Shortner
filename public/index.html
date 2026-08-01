@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brevio - Cyber URL Shortener</title>
+    <!-- Google Fonts: Orbitron, Share Tech Mono, Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Share+Tech+Mono&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@1.28.0"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Cyber Overlay Effects -->
+    <div class="cyber-grid"></div>
+    <div class="cyber-scanline"></div>
+    
+    <!-- Background Glow Nodes -->
+    <div class="cyber-glow glow-blue"></div>
+    <div class="cyber-glow glow-cyan"></div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="cyber-hud-top">
+                <span class="hud-status"><span class="pulse-dot"></span> SYSTEM: ONLINE</span>
+                <span class="hud-divider"></span>
+                <span class="hud-terminal">// ARCHITECT: MAITHILI</span>
+            </div>
+            
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <i data-lucide="shield-alert" class="reactor-core"></i>
+                </div>
+                <h1 class="glitch-text" data-text="BREVIO">BREVIO</h1>
+            </div>
+            <p class="tagline">Shorten. Track. Deploy.</p>
+        </header>
+
+        <!-- Main Content Grid -->
+        <main class="main-grid">
+            <!-- Left Panel: Shortener & Output -->
+            <section class="panel-left">
+                <!-- Shortener Form Card -->
+                <div class="cyber-card shortener-card">
+                    <div class="card-corner-top"></div>
+                    <div class="card-corner-bottom"></div>
+                    <h2 class="card-title">
+                        <i data-lucide="terminal" class="title-icon"></i>
+                        LINK_INJECTOR
+                    </h2>
+                    <form id="shorten-form">
+                        <div class="input-wrapper">
+                            <i data-lucide="link-2" class="input-icon"></i>
+                            <input 
+                                type="url" 
+                                id="long-url" 
+                                placeholder="PASTE TARGET LONG URL..." 
+                                required
+                            >
+                        </div>
+                        <button type="submit" id="submit-btn" class="btn btn-cyber-primary">
+                            <span class="btn-glitch-content">INITIALIZE SHORTEN</span>
+                            <i data-lucide="activity" class="btn-icon"></i>
+                            <div class="btn-spinner hidden"></div>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Result Card (Hidden by default) -->
+                <div id="result-card" class="cyber-card result-card hidden animate-cyber-slide">
+                    <div class="card-corner-top"></div>
+                    <div class="card-corner-bottom"></div>
+                    <h2 class="card-title text-success">
+                        <i data-lucide="radiation" class="title-icon"></i>
+                        LINK_ESTABLISHED
+                    </h2>
+                    
+                    <div class="result-display">
+                        <div class="short-url-box">
+                            <input type="text" id="short-url-val" readonly>
+                            <button id="copy-btn" class="btn btn-cyber-success" title="Copy to Clipboard">
+                                <i data-lucide="copy"></i>
+                                <span>COPY</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="result-actions">
+                        <div class="qr-container">
+                            <img id="qr-code-img" src="" alt="QR Code">
+                            <button id="download-qr-btn" class="btn btn-cyber-secondary btn-sm">
+                                <i data-lucide="download"></i>
+                                DOWNLOAD_QR
+                            </button>
+                        </div>
+                        <div class="link-meta">
+                            <p class="meta-label">DESTINATION NODE:</p>
+                            <a id="orig-url-link" href="#" target="_blank" class="meta-value"></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Toast Notification Container -->
+                <div id="toast-container" class="toast-container"></div>
+            </section>
+
+            <!-- Right Panel: Links History & Live Stats -->
+            <section class="panel-right">
+                <!-- History Card -->
+                <div class="cyber-card history-card">
+                    <div class="card-corner-top"></div>
+                    <div class="card-corner-bottom"></div>
+                    <div class="card-header-flex">
+                        <h2 class="card-title">
+                            <i data-lucide="database" class="title-icon"></i>
+                            LINK_DATABASE
+                        </h2>
+                        <button id="clear-history-btn" class="btn btn-cyber-danger btn-sm hidden">
+                            <i data-lucide="trash-2"></i> WIPE
+                        </button>
+                    </div>
+
+                    <div id="history-empty" class="history-empty">
+                        <i data-lucide="cpu" class="empty-icon"></i>
+                        <p>DATABASE EMPTY. AWAITING DATA INJECTION...</p>
+                    </div>
+
+                    <div id="history-list" class="history-list hidden">
+                        <!-- Items dynamically populated -->
+                    </div>
+                </div>
+
+                <!-- Analytics Details Card (Hidden by default, shown when viewing stats) -->
+                <div id="analytics-card" class="cyber-card analytics-card hidden animate-cyber-slide">
+                    <div class="card-corner-top"></div>
+                    <div class="card-corner-bottom"></div>
+                    <div class="analytics-header">
+                        <h2 class="card-title text-cyan">
+                            <i data-lucide="radar" class="title-icon text-cyan"></i>
+                            QUANTUM_STATS
+                        </h2>
+                        <button id="close-analytics" class="btn btn-cyber-close" title="Close Panel">
+                            <i data-lucide="x"></i>
+                        </button>
+                    </div>
+
+                    <div class="analytics-meta">
+                        <div class="meta-item">
+                            <span class="meta-item-label">SHORT LINK</span>
+                            <a id="analytics-short-url" href="#" target="_blank" class="meta-item-val font-semibold text-cyan"></a>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-item-label">TOTAL ACCESSES</span>
+                            <span id="analytics-clicks" class="meta-item-val click-badge">0</span>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <canvas id="clicks-chart"></canvas>
+                    </div>
+
+                    <div class="clicks-log-container">
+                        <h3>ACCESS LOGS</h3>
+                        <div id="clicks-log-list" class="clicks-log-list">
+                            <!-- Timestamps populated here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="hud-bottom-bar">
+                <span>&copy; 2026 BREVIO PROTOCOL</span>
+                
+                <span>STATUS: SECURE</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Main JavaScript App -->
+    <script src="app.js"></script>
+</body>
+</html>
