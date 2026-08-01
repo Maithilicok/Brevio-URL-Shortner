@@ -1,6 +1,6 @@
 # Brevio — Cyber URL Shortener 🔗
 
-A next-gen URL shortener with a full analytics dashboard — shorten links, track every click in real time, and generate QR codes, all wrapped in a custom cyber-themed UI.
+URL shortener with a full analytics dashboard — shorten links, track every click in real time, and generate QR codes, all wrapped in a custom cyber-themed UI.
 
 🔗 **Live Demo:** [brevio-url-shortner.onrender.com](https://brevio-url-shortner.onrender.com/)
 
